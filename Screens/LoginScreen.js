@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   StyleSheet,
@@ -9,21 +9,50 @@ import {
   TouchableOpacity,
   Platform,
   Keyboard,
+  Dimensions,
 } from "react-native";
+
+const initialState = {
+  email: "",
+  password: "",
+};
 
 export default function LoginScreen() {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [state, setState] = useState(initialState);
+  const [dimensions, setDimensions] = useState(
+    Dimensions.get("window").width - 10 * 2
+  );
+
+  useEffect(() => {
+    const onChange = () => {
+      const width = Dimensions.get("window").width - 10 * 2;
+      setDimensions(width);
+    };
+    Dimensions.addEventListener("change", onChange);
+    return () => {
+      Dimensions.removeEventListener("change", onChange);
+    };
+  }, []);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
+    setState(initialState);
+    console.log(isShowKeyboard);
   };
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={{ ...styles.form, marginBottom: isShowKeyboard ? 32 : 100 }}>
+      <View
+        style={{
+          ...styles.form,
+          marginBottom: isShowKeyboard ? 32 : 100,
+          width: dimensions,
+        }}
+      >
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Войти</Text>
         </View>
@@ -33,9 +62,13 @@ export default function LoginScreen() {
           <TextInput
             style={styles.input}
             textAlign={"center"}
+            value={state.email}
             onFocus={() => {
               setIsShowKeyboard(true);
             }}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, email: value }))
+            }
           />
         </View>
         <View style={{ marginTop: 20 }}>
@@ -43,10 +76,14 @@ export default function LoginScreen() {
           <TextInput
             style={styles.input}
             textAlign={"center"}
+            value={state.password}
             secureTextEntry={true}
             onFocus={() => {
               setIsShowKeyboard(true);
             }}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, password: value }))
+            }
           />
         </View>
         <TouchableOpacity
@@ -57,7 +94,7 @@ export default function LoginScreen() {
           <Text style={styles.btnTitle}>Sing In</Text>
         </TouchableOpacity>
         <View>
-          <Text style={styles.navigate}>Нет аккаунта? Зарегистрироваться</Text>
+          <Text style={styles.navigate}>Don't have an account? Register</Text>
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -67,7 +104,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   form: {
     backgroundColor: "#ffffff",
-    marginHorizontal: 20,
+    padding: 16,
   },
   input: {
     borderWidth: 1,
@@ -81,17 +118,20 @@ const styles = StyleSheet.create({
     color: "#212121",
     marginBottom: 16,
     fontSize: 18,
+    fontFamily: "Roboto-Regular",
   },
   btn: {
     backgroundColor: "#ff6C00",
     height: 50,
     borderRadius: 30,
     marginTop: 43,
-    marginHorizontal: 20,
   },
   btnTitle: {
     color: "#ffffff",
     fontSize: 18,
+    fontFamily: "Roboto-Regular",
+    textAlign: "center",
+    marginVertical: 8,
   },
   navigate: {
     color: "#1B4371",
@@ -103,5 +143,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 30,
     color: "#212121",
+    fontFamily: "Roboto-Medium",
   },
 });
