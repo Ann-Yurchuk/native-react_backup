@@ -52,6 +52,9 @@ export default function LoginScreen() {
           marginBottom: isShowKeyboard ? 32 : 100,
           width: dimensions,
         }}
+        onSubmit={(values) => {
+          console.log(values);
+        }}
       >
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Войти</Text>

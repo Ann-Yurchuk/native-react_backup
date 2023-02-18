@@ -53,6 +53,9 @@ export default function RegistrationScreen() {
           marginBottom: isShowKeyboard ? 32 : 100,
           width: dimensions,
         }}
+        onSubmit={(values) => {
+          console.log(values);
+        }}
       >
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Registration</Text>
