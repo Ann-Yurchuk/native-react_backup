@@ -17,7 +17,8 @@ const initialState = {
   password: "",
 };
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
+  console.log(navigation);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const [dimensions, setDimensions] = useState(
@@ -96,9 +97,16 @@ export default function LoginScreen() {
         >
           <Text style={styles.btnTitle}>Sing In</Text>
         </TouchableOpacity>
-        <View>
-          <Text style={styles.navigate}>Don't have an account? Register</Text>
-        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{ alignSelf: "center" }}
+          onPress={() => navigation.navigate("Register")}
+        >
+          <Text>
+            Don't have an account?{""}
+            <Text style={styles.navigate}>Register</Text>
+          </Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
@@ -138,6 +146,8 @@ const styles = StyleSheet.create({
   },
   navigate: {
     color: "#1B4371",
+    fontSize: 16,
+    fontFamily: "Roboto-Regular",
   },
   header: {
     alignItems: "center",

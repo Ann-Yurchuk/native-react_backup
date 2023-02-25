@@ -8,14 +8,15 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { NavigationContainer } from "@react-navigation/native";
+import useRoute from "./router";
 import { StatusBar } from "expo-status-bar";
-import LoginScreen from "./Screens/LoginScreen";
-// import RegistrationScreen from "./Screens/RegistrationScreen";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const routing = useRoute(null);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -40,18 +41,20 @@ export default function App() {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container} onLayout={onLayoutRootView}>
-        <ImageBackground
-          style={styles.image}
-          source={require("./assets/images/mountains.jpg")}
-        >
-          <LoginScreen />
-          {/* <RegistrationScreen/> */}
-        </ImageBackground>
-        <StatusBar style="auto" />
-      </View>
-    </TouchableWithoutFeedback>
+    <NavigationContainer>
+      {" "}
+      <TouchableWithoutFeedback onPress={keyboardHide}>
+        <View style={styles.container} onLayout={onLayoutRootView}>
+          <ImageBackground
+            style={styles.image}
+            source={require("./assets/images/mountains.jpg")}
+          >
+            {routing}
+          </ImageBackground>
+          <StatusBar style="auto" />
+        </View>
+      </TouchableWithoutFeedback>
+    </NavigationContainer>
   );
 }
 
@@ -67,3 +70,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+

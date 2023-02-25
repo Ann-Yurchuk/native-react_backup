@@ -18,7 +18,7 @@ const initialState = {
   password: "",
 };
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const [dimensions, setDimensions] = useState(
@@ -61,7 +61,7 @@ export default function RegistrationScreen() {
           <Text style={styles.headerTitle}>Registration</Text>
         </View>
 
-        <View>
+        <View style={{ marginTop: 20 }}>
           <Text style={styles.inputTitle}>Login</Text>
           <TextInput
             style={styles.input}
@@ -111,9 +111,16 @@ export default function RegistrationScreen() {
         >
           <Text style={styles.btnTitle}>Sing Up</Text>
         </TouchableOpacity>
-        <View>
-          <Text style={styles.navigate}>Already have an account? Sign in</Text>
-        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{ alignSelf: "center" }}
+          onPress={() => navigation.navigate("Login")}
+        >
+          <Text style={{ marginRight: 5 }}>
+            Already have an account? {""}
+            <Text style={styles.navigate}>Sign in</Text>
+          </Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
