@@ -1,12 +1,13 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const MainTab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
-import LoginScreen from "./Screens/LoginScreen";
 import RegistrationScreen from "./Screens/RegistrationScreen";
+import LoginScreen from "./Screens/LoginScreen";
+import Home from "./Screens/Home";
 import PostsScreen from "./Screens/mainScreen/PostsScreen";
 import CreateScreen from "./Screens/mainScreen/CreateScreen";
 import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
@@ -15,10 +16,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
-const useRoute = (isStack) => {
-  if (!isStack) {
+const authorize = true;
+
+export const useRoute = () => {
+  if (authorize) {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Register">
         <Stack.Screen
           options={{ headerShown: false }}
           name="Register"
@@ -29,12 +32,17 @@ const useRoute = (isStack) => {
           name="Login"
           component={LoginScreen}
         />
+        <Stack.Screen
+          options={{ title: "Головна сторінка" }}
+          name="Home"
+          component={Home}
+        />
       </Stack.Navigator>
     );
   }
 
   return (
-    <MainTab.Navigator tabBarOptions={{ showLabel: false }}>
+    <MainTab.Navigator screenOptions={{ showLabel: false }}>
       <MainTab.Screen
         options={{
           tabBarIcon: ({ focused, size, color }) => (
@@ -47,23 +55,21 @@ const useRoute = (isStack) => {
       <MainTab.Screen
         options={{
           tabBarIcon: ({ focused, size, color }) => (
-            <Feather name="user" size={size} color={color} />
-          ),
-        }}
-        name="Profile"
-        component={ProfileScreen}
-      />
-      <MainTab.Screen
-        options={{
-          tabBarIcon: ({ focused, size, color }) => (
             <Entypo name="plus" size={size} color={color} />
           ),
         }}
         name="Create"
         component={CreateScreen}
       />
+      <MainTab.Screen
+        options={{
+          tabBarIcon: ({ focused, size, color }) => (
+            <Feather name="user" size={size} color={color} />
+          ),
+        }}
+        name="Profile"
+        component={ProfileScreen}
+      />
     </MainTab.Navigator>
   );
 };
-
-export default useRoute;

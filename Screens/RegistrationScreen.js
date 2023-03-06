@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
 import {
   StyleSheet,
   TextInput,
@@ -9,8 +8,9 @@ import {
   TouchableOpacity,
   Platform,
   Keyboard,
-  Dimensions,
+  ImageBackground,
 } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const initialState = {
   login: "",
@@ -21,116 +21,126 @@ const initialState = {
 export default function RegistrationScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
-  const [dimensions, setDimensions] = useState(
-    Dimensions.get("window").width - 10 * 2
-  );
-
-  useEffect(() => {
-    const onChange = () => {
-      const width = Dimensions.get("window").width - 10 * 2;
-      setDimensions(width);
-    };
-    Dimensions.addEventListener("change", onChange);
-    return () => {
-      Dimensions.removeEventListener("change", onChange);
-    };
-  }, []);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
+    navigation.navigate("Home", { authorize: true });
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <View
-        style={{
-          ...styles.form,
-          marginBottom: isShowKeyboard ? 32 : 100,
-          width: dimensions,
-        }}
-        onSubmit={(values) => {
-          console.log(values);
-        }}
-      >
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Registration</Text>
-        </View>
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+      <View style={styles.container}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <ImageBackground
+            style={styles.image}
+            source={require("../assets/images/mountains.jpg")}
+          >
+            <View
+              style={{
+                ...styles.form,
+                marginBottom: isShowKeyboard ? -32 : -50,
+              }}
+              onSubmit={(values) => {
+                console.log(values);
+              }}
+            >
+              <View style={styles.header}>
+                <Text style={styles.headerTitle}>Registration</Text>
+              </View>
 
-        <View style={{ marginTop: 20 }}>
-          <Text style={styles.inputTitle}>Login</Text>
-          <TextInput
-            style={styles.input}
-            textAlign={"center"}
-            value={state.email}
-            onFocus={() => {
-              setIsShowKeyboard(true);
-            }}
-            onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, login: value }))
-            }
-          />
-        </View>
-        <View>
-          <Text style={styles.inputTitle}>Email address</Text>
-          <TextInput
-            style={styles.input}
-            textAlign={"center"}
-            value={state.email}
-            onFocus={() => {
-              setIsShowKeyboard(true);
-            }}
-            onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, email: value }))
-            }
-          />
-        </View>
-        <View style={{ marginTop: 20 }}>
-          <Text style={styles.inputTitle}>Password</Text>
-          <TextInput
-            style={styles.input}
-            textAlign={"center"}
-            value={state.password}
-            secureTextEntry={true}
-            onFocus={() => {
-              setIsShowKeyboard(true);
-            }}
-            onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, password: value }))
-            }
-          />
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.btn}
-          onPress={keyboardHide}
-        >
-          <Text style={styles.btnTitle}>Sing Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{ alignSelf: "center" }}
-          onPress={() => navigation.navigate("Login")}
-        >
-          <Text style={{ marginRight: 5 }}>
-            Already have an account? {""}
-            <Text style={styles.navigate}>Sign in</Text>
-          </Text>
-        </TouchableOpacity>
+              <View style={{ marginTop: 20 }}>
+                <Text style={styles.inputTitle}>Login</Text>
+                <TextInput
+                  style={styles.input}
+                  textAlign={"center"}
+                  value={state.login}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, login: value }))
+                  }
+                />
+              </View>
+              <View>
+                <Text style={styles.inputTitle}>Email address</Text>
+                <TextInput
+                  style={styles.input}
+                  textAlign={"center"}
+                  value={state.email}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, email: value }))
+                  }
+                />
+              </View>
+              <View style={{ marginTop: 20 }}>
+                <Text style={styles.inputTitle}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  textAlign={"center"}
+                  value={state.password}
+                  secureTextEntry={true}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, password: value }))
+                  }
+                />
+              </View>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.btn}
+                onPress={keyboardHide}
+              >
+                <Text style={styles.btnTitle}>Sing Up</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ alignSelf: "center" }}
+                onPress={() => navigation.navigate("Login")}
+              >
+                <Text style={{ marginRight: 5, marginTop: 16 }}>
+                  Already have an account? {""}
+                  <Text style={styles.navigate}>Sign in</Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        </KeyboardAvoidingView>
       </View>
-    </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    justifyContent: "flex-end",
+    backgroundColor: "#fff",
+  },
+  image: {
+    minHeight: "100%",
+    minWidth: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
   form: {
     backgroundColor: "#ffffff",
     marginHorizontal: 20,
     padding: 16,
+    minHeight: "80%",
+    minWidth: "100%",
+    borderRadius: 26,
   },
   input: {
     borderWidth: 1,
