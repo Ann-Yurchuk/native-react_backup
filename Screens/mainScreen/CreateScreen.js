@@ -25,8 +25,7 @@ const CreateScreen = ({ navigation }) => {
   const cameraRef = useRef();
   const [photo, setPhoto] = useState(null);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] =
-    useState(null);
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [isPreview, setIsPreview] = useState(false);
   const [location, setLocation] = useState(null);
@@ -87,12 +86,7 @@ const CreateScreen = ({ navigation }) => {
 
   if (photo) {
     const sharePic = () => {
-      shareAsync(photo.uri).then((res) => {
-        return res
-          .json()
-          .then(() => res.json())
-          .catch((error) => console.warn("fetch error:", error));
-      });
+      shareAsync(photo.uri);
       setPhoto(photo.uri);
     };
 
