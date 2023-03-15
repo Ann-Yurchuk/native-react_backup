@@ -19,7 +19,7 @@ import { Feather } from "@expo/vector-icons";
 const authorize = true;
 
 export const useRoute = () => {
-  if (authorize) {
+  if (!authorize) {
     return (
       <Stack.Navigator initialRouteName="Register">
         <Stack.Screen

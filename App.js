@@ -2,6 +2,7 @@ import React from "react";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { useRoute } from "./router";
+
 // import * as SplashScreen from "expo-splash-screen";
 // SplashScreen.preventAutoHideAsync();
 
