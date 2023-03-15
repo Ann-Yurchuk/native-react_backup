@@ -7,6 +7,8 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 const DefaultScreenPost = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
@@ -28,9 +30,31 @@ const DefaultScreenPost = ({ route, navigation }) => {
               source={{ uri: item.photo }}
               style={{ marginHorizontal: 10, height: 200, width: 250 }}
             />
+            <View style={styles.commentsContainer}>
+              <TouchableOpacity
+                title={"Comments"}
+                onPress={() => navigation.navigate("Comments")}
+              >
+                <Text style={{ color: "grey" }}>
+                  <FontAwesome5 name="comments" size={24} color="black" />
+                  {item.commentsCount ?? 0}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                title={"Map"}
+                onPress={() => navigation.navigate("Map")}
+              >
+                <Text style={{ color: "grey" }}>
+                  <Ionicons name="location-outline" size={24} color="black" />
+                  {item.location ?? ""}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       />
+
       <TouchableOpacity
         activeOpacity={0.8}
         style={{ alignSelf: "center" }}
@@ -61,6 +85,12 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  commentsContainer: {
+    flexDirection: "row",
+    display: "flex",
+    marginTop: 5,
+    marginBottom: 20,
   },
 });
 

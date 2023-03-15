@@ -113,7 +113,6 @@ const CreateScreen = ({ navigation }) => {
           style={styles.preview}
         />
         <Button title="Share" onPress={sharePic} />
-
         {!hasMediaLibraryPermission ? (
           <Button title="Save" onPress={savePhoto} />
         ) : undefined}
@@ -274,14 +273,6 @@ const styles = StyleSheet.create({
     color: "#212121",
     backgroundColor: "#ffffff",
   },
-  // locationContainer: {
-  //   width: 350,
-  //   height: 40,
-  //   marginHorizontal: "6%",
-  //   marginTop: 20,
-  //   borderColor: "#e8e8e8",
-  //   borderWidth: 1,
-  // },
 });
 
 export default CreateScreen;
